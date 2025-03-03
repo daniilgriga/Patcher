@@ -5,11 +5,11 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(740, 600), "SFML App");
+    sf::RenderWindow window(sf::VideoMode(740, 600), "Patcher GRD");
 
     // ========================= MUSIC ========================= //
     sf::Music music;
-    if (!music.openFromFile("Mobil edit (Keygen music).mp3"))
+    if (!music.openFromFile("music.mp3"))
     {
         std::cerr << "Load music ERROR\n";
         return 1;
@@ -20,7 +20,7 @@ int main()
 
     // ========================= FONT ========================== //
     sf::Font font;
-    if (!font.loadFromFile("Astakhov Flacon.otf"))
+    if (!font.loadFromFile("Bounded-Black.ttf"))
     {
         std::cerr << "Load font ERROR\n";
         return 1;
@@ -72,27 +72,27 @@ int main()
     //startButton.setTexture(startButtonTexture);
     //startButton.setPosition(200.f, 400.f);
     sf::RectangleShape startButton(sf::Vector2f(200.f, 50.f));
-    startButton.setPosition(210.f, 400.f);
-    startButton.setFillColor(sf::Color::Green);
+    startButton.setPosition(110.f, 410.f);
+    startButton.setFillColor(sf::Color::White);
 
     sf::Text startText;
     startText.setFont(font);
     startText.setString("GO");
     startText.setCharacterSize(24);
     startText.setFillColor(sf::Color::Black);
-    startText.setPosition(230.f, 410.f);
+    startText.setPosition(186.f, 420.f);
 
     // ========================================================== //
     sf::RectangleShape exitButton(sf::Vector2f(200.f, 50.f));
-    exitButton.setPosition(450.f, 400.f);
-    exitButton.setFillColor(sf::Color::Red);
+    exitButton.setPosition(430.f, 410.f);
+    exitButton.setFillColor(sf::Color::White);
 
     sf::Text exitText;
     exitText.setFont(font);
     exitText.setString("OUT");
     exitText.setCharacterSize(24);
     exitText.setFillColor(sf::Color::Black);
-    exitText.setPosition(490.f, 410.f);
+    exitText.setPosition(495.f, 420.f);
 
     sf::Clock clock;
 
@@ -111,7 +111,7 @@ int main()
                 if (startButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
                 {
                     std::cout << "program is starting...\n";
-                    system("build/test CRACK.COM rules.txt cracked.com");
+                    system("../build/test ../CRACK.COM ../rules.txt ../cracked.com");
                 }
 
                 if (exitButton.getGlobalBounds().contains(mousePos.x, mousePos.y))
