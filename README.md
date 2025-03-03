@@ -12,7 +12,7 @@ The programs are similar in its idea: the user must enter a password, if its cor
 
 ## Content
 
-- [Egor's program](#Egor's-program)
+- [Egor's program (CRACK.COM)](#Egor's-program-(CRACK.COM))
     - [Vulnerability 1: buffer overflow](#Vulnerability-1:-buffer-overflow)
     - [Vulnerability 2: buffer overflow but more interesting](#Vulnerability-2:-buffer-overflow-but-more-interesting)
 - [My program](#My-program)
@@ -20,4 +20,7 @@ The programs are similar in its idea: the user must enter a password, if its cor
     - [Vulnerability 2: stack overflow](#Vulnerability-2:-stack-overflow)
 - [My Patcher](#My-Patcher)
 
-## Egor's program
+## Egor's program (CRACK.COM)
+
+The program greets the user like this:
+![greeting](img/greeting.png)
