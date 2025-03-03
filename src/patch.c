@@ -25,29 +25,42 @@ int Patch (char* buffer, const char* rules_filename)
 
     char* rules_buffer = ReadInBuffer (rules_file, numb_symb);
 
-    struct Byte_t byte = GetByte (rules_buffer);
+    char* ptr_rules = rules_buffer;
 
-    if ((int) buffer[byte.address] == byte.curr_value)
-              buffer[byte.address] = (char) byte.next_value;
-    else
-        fprintf (stderr, "oh.. maybe this program already patched.. :(" "\n\n");
+    ReplaceByte (buffer, &ptr_rules);
+
+    while (true)
+        if (strchr (ptr_rules, '<'))
+            ReplaceByte (buffer, &ptr_rules);
+        else
+            break;
 
     free (rules_buffer);
 
     return 0;
 }
 
-struct Byte_t GetByte (char* buffer)
+int ReplaceByte (char* buffer, char** ptr_rules)
 {
-    assert (buffer && "buffer is NULL in GetByte" "\n");
+    struct Byte_t byte = GetByte (ptr_rules);
+
+    if ((int) buffer[byte.address] == byte.curr_value)
+              buffer[byte.address] = (char) byte.next_value;
+    else
+        fprintf (stderr, "oh.. maybe this program already patched.. :(" "\n\n");
+
+    return 0;
+}
+
+struct Byte_t GetByte (char** buffer_ptr)
+{
+    assert (buffer_ptr && "buffer_ptr is NULL in GetByte" "\n");
 
     struct Byte_t byte = {};
 
-    char* buffer_ptr = (char*) buffer;
-
-    buffer_ptr = GetHex (&byte.address   , buffer_ptr);
-    buffer_ptr = GetHex (&byte.curr_value, buffer_ptr);
-    buffer_ptr = GetHex (&byte.next_value, buffer_ptr);
+    *buffer_ptr = GetHex (&byte.address   , *buffer_ptr);
+    *buffer_ptr = GetHex (&byte.curr_value, *buffer_ptr);
+    *buffer_ptr = GetHex (&byte.next_value, *buffer_ptr);
 
     return byte;
 }
@@ -78,15 +91,14 @@ char* GetHex (int* byte_param, char* buffer_ptr)
         }
         else
             buffer_ptr++;
-
     }
 
-    fprintf (stderr, "i = %zu >>> byte.param = %s\n", i, temp);
+    fprintf (stderr, "i = %zu >>> byte.param = %s"   "\n", i, temp);
 
     char* end_p = NULL;
     *byte_param = (int) strtol (temp, &end_p, 16);
 
-    fprintf (stderr, "i = %zu >>> byte.param = %d\n", i, *byte_param);
+    fprintf (stderr, "i = %zu >>> byte.param = %d" "\n\n", i, *byte_param);
 
     return buffer_ptr;
 }

@@ -60,6 +60,7 @@ int CloseFile (FILE* file_ptr, const char* filename)
     assert (filename && "filename is NULL in CloseFile");
 
     fprintf (stderr, "%s is closing..." "\n", filename);
+
     assert ( fclose (file_ptr) == 0 && "fclose error in CloseFile");
 
     return 0;
