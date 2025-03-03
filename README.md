@@ -9,3 +9,15 @@ This is the final task of the DOS assembler course by [Ilya Dedinsky](https://gi
 
 My course friend, [Egor](https://github.com/4Locker4) and I wrote two CrackMe program and sent them to each other for hacking.
 The programs are similar in its idea: the user must enter a password, if its correct, an inscription corresponding to this will appear. The goal is to receive this message without knowing the password.
+
+## Content
+
+- [Egor's program](#Egor's-program)
+    - [Vulnerability 1: buffer overflow](#Vulnerability-1:-buffer-overflow)
+    - [Vulnerability 2: buffer overflow but more interesting](#Vulnerability-2:-buffer-overflow-but-more-interesting)
+- [My program](#My-program)
+    - [Vulnerability 1: love jmp](#Vulnerability-1:-love-jmp)
+    - [Vulnerability 2: stack overflow](#Vulnerability-2:-stack-overflow)
+- [My Patcher](#My-Patcher)
+
+## Egor's program
