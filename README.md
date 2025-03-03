@@ -7,5 +7,5 @@
 
 This is the final task of the DOS assembler course by [Ilya Dedinsky](https://github.com/ded32).
 
-My course friend and I wrote two CrackMe program and sent them to each other for hacking.
+My course friend, [Egor](https://github.com/4Locker4) and I wrote two CrackMe program and sent them to each other for hacking.
 The programs are similar in its idea: the user must enter a password, if its correct, an inscription corresponding to this will appear. The goal is to receive this message without knowing the password.
