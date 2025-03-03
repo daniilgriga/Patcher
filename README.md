@@ -23,4 +23,4 @@ The programs are similar in its idea: the user must enter a password, if its cor
 ## Egor's program (CRACK.COM)
 
 The program greets the user like this:
-![greeting](imageRDM/greeting.png)
+![greeting](imagesRDM/greeting.png)
