@@ -25,9 +25,6 @@ int Patch (char* buffer, const char* rules_filename)
 
     char* rules_buffer = ReadInBuffer (rules_file, numb_symb);
 
-    for (int i = 0; i < numb_symb; i++)
-        fprintf (stderr, "[%d]: < %c >" "\n", i, rules_buffer[i]);
-
     struct Byte_t byte = GetByte (rules_buffer);
 
     if ((int) buffer[byte.address] == byte.curr_value)
@@ -67,7 +64,7 @@ char* GetHex (int* byte_param, char* buffer_ptr)
     {
         if (*buffer_ptr == '<')
         {
-            buffer_ptr += 3;                                            // "<0x"
+            buffer_ptr += 3;                                            // skip "<0x"
 
             i = 0;
             while (*buffer_ptr != '>')
