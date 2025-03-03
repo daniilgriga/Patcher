@@ -1,6 +1,8 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "file.h"
+#include "patch.h"
 
 int main (const int argc, const char* argv[])
 {
@@ -8,9 +10,26 @@ int main (const int argc, const char* argv[])
 
     FILE* input_file = OpenFile (filename, "rb");
 
-    long n_symb = FileSize (input_file);
+    long numb_symb = FileSize (input_file);
 
-    fprintf (stderr, "FILE SIZE = %ld" "\n", n_symb);
+    fprintf (stderr, "FILE SIZE = %ld" "\n", numb_symb);
 
+    char* buffer = ReadInBuffer (input_file, numb_symb);
+
+    CloseFile (input_file, filename);
+
+    const char* rules_filename = (argc >= 3) ? argv[2] : NULL;
+
+    Patch (buffer, rules_filename);
+
+    const char* out_filename = (argc >= 4) ? argv[3] : NULL;
+
+    FILE* output_file = OpenFile (out_filename, "wb");
+
+    fwrite (buffer, (size_t) numb_symb, sizeof (buffer[0]), output_file);
+
+    CloseFile (output_file, out_filename);
+
+    free (buffer);
     return 0;
 }

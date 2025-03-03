@@ -20,7 +20,7 @@ FLAGS = -D _DEBUG -ggdb3  -O0 -Wall -Wextra  -Waggressive-loop-optimizations \
 CFLAGS = -c $(FLAGS)
 LDFLAGS = $(FLAGS) -lm
 
-SOURCES_LIST = main.c file.c
+SOURCES_LIST = main.c file.c patch.c
 
 SOURCES = $(SOURCES_LIST:%=src/%)
 OBJECTS = $(SOURCES_LIST:%.c=build/%.o)
@@ -40,7 +40,7 @@ build/%.o: src/%.c
 	@$(CC) -I./include $(CFLAGS) -MMD -MP $< -o $@
 
 run:
-	./$(EXECUTABLE) CRACK.COM cracked.com
+	./$(EXECUTABLE) CRACK.COM rules.txt cracked.com
 
 clean:
 	rm -f build/*.o $(EXECUTABLE)
