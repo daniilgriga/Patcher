@@ -23,4 +23,15 @@ The programs are similar in its idea: the user must enter a password, if its cor
 ## Egor's program (CRACK.COM)
 
 The program greets the user like this:
+
 ![greeting](imagesRDM/greeting.png)
+
+The program is designed in an interesting way, here is an example of its use for understanding:
+
+![work_example_1](imagesRDM/work_example_1.png)
+
+An interesting fact: after answering the last question 'y' (yes), the program freezes and I have to restart DOS (my touchpad has already been erased to the keyboard chips)
+
+## Vulnerability 1: buffer overflow
+
+
