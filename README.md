@@ -46,12 +46,14 @@ I used Ghidra to disassemble the program. Ghidra is a software reverse engineeri
 
 ![mainE](imagesRDM/mainE.png)
 
-The main function calls a single function, the function that does all the work. 
+The main function **calls** a single function, that prints an input prompt.
 
-#### 
+#### Function for printing input prompt (Address: 0x0107 - 0x0112)
 
+![Function for printing input prompt](imagesRDM/2funcE.png)
 
+The function clears the flag, prints a greeting and an invitation to enter a password.
 
-## Vulnerability 1: buffer overflow
+At the end, a function is **called** to get the password.
 
 
