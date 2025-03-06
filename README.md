@@ -43,8 +43,12 @@ I used Ghidra to disassemble the program. Ghidra is a software reverse engineeri
 [National Security Agency](nsa) Research Directorate.
 
 #### Main function (Address: 0x0100 - 0x0105)
+
 ![mainE](imagesRDM/mainE.png)
 
+The main function calls a single function, the function that does all the work. 
+
+#### 
 
 
 
