@@ -7,7 +7,7 @@
 
 This is the final task of the DOS assembler course by [Ilya Dedinsky](https://github.com/ded32).
 
-My course friend, [Egor](https://github.com/4Locker4) and I wrote two CrackMe program and sent them to each other for hacking.
+My course friend, [Egor](https://github.com/4Locker4) and I wrote two CrackMe programs and sent them to each other for hacking.
 The programs are similar in its idea: the user must enter a password, if its correct, an inscription corresponding to this will appear. The goal is to receive this message without knowing the password.
 
 # Content
@@ -61,4 +61,19 @@ At the end, a function is **called** to get the password.
 ![Function to get password](imagesRDM/inputfunc.png)
 
 This function accepts the password using the 0Ah function of 21 interrupt. Please note that the code from address 0x0125 will never be executed, this is how the program works, it will be better seen below.
+
+#### Function to check password <1<sup>st</sup> attempt> (Address: 0x013c - 0x189)
+
+![check function](imagesRDM/checkfunc1try.png)
+
+The content of the function is quite strange, there is some buffer in the middle of it, because of this the disassembler detects some function, although it is unlikely to be a function.
+Note, that at the end of the function there is a jump to a "function" in the middle, but the program is designed so that we will never get to it (a function is called before it, which either ends the program by hanging, or returns us to the beginning of the program).
+
+Here two functions are called (without the function before the buffer):
+ - Function to output a new line
+ - Function to get the password on the second attempt
+
+#### Function to output a new line
+
+
 
