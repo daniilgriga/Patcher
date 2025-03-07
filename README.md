@@ -44,16 +44,21 @@ I used Ghidra to disassemble the program. Ghidra is a software reverse engineeri
 
 #### Main function (Address: 0x0100 - 0x0105)
 
-![mainE](imagesRDM/mainE.png)
+![mainE](imagesRDM/main.png)
 
 The main function **calls** a single function, that prints an input prompt.
 
 #### Function for printing input prompt (Address: 0x0107 - 0x0112)
 
-![Function for printing input prompt](imagesRDM/2funcE.png)
+![Function for printing input prompt](imagesRDM/2func.png)
 
 The function clears the flag, prints a greeting and an invitation to enter a password.
 
 At the end, a function is **called** to get the password.
 
+#### Function to get password <1<sup>st</sup> attempt> (Address: 0x011b - 0x13b)
+
+![Function to get password](imagesRDM/inputfunc.png)
+
+This function accepts the password using the 0Ah function of 21 interrupt. Please note that the code from address 0x0125 will never be executed, this is how the program works, it will be better seen below.
 
