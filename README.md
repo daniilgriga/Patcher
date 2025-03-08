@@ -118,6 +118,51 @@ Idea: let's change the address from 0x0113 to 0x0132 at address 0x0143. Then we 
 
 This combination restores the source code, but with a converted string at address 0x0143. 
 
+<table>
+    <tr>
+        <th> BYTE </th>
+        <td style="text-align: center;"> BE </td>
+        <td style="text-align: center;"> 32 </td>
+        <td style="text-align: center;"> 01 </td>
+        <td style="text-align: center;"> 46 </td>
+        <td style="text-align: center;"> AC </td>
+        <td style="text-align: center;"> 8B </td>
+        <td style="text-align: center;"> С8 </td>
+        <td style="text-align: center;"> BF </td>
+        <td style="text-align: center;"> 34 </td>
+        <td style="text-align: center;"> EB </td>
+        <td style="text-align: center;"> 23 </td>
+    </tr>
+    <tr>
+        <th> ASCII </th>
+        <td style="text-align: center;"> 190 </td>
+        <td style="text-align: center;"> 50 </td>
+        <td style="text-align: center;"> 1 </td>
+        <td style="text-align: center;"> 70 </td>
+        <td style="text-align: center;"> 172 </td>
+        <td style="text-align: center;"> 139 </td>
+        <td style="text-align: center;"> 200 </td>
+        <td style="text-align: center;"> 191 </td>
+        <td style="text-align: center;"> 52 </td>
+        <td style="text-align: center;"> 235 </td>
+        <td style="text-align: center;"> 35 </td>
+    </tr>
+    <tr>
+        <th> KEYBOARD BUTTON </th>
+        <td style="text-align: center;"> alt + 190 </td>
+        <td style="text-align: center;"> 2 </td>
+        <td style="text-align: center;"> ctrl + a </td>
+        <td style="text-align: center;"> F </td>
+        <td style="text-align: center;"> м </td>
+        <td style="text-align: center;"> Л </td>
+        <td style="text-align: center;"> alt + 200 </td>
+        <td style="text-align: center;"> alt + 191 </td>
+        <td style="text-align: center;"> 4 </td>
+        <td style="text-align: center;"> ы </td>
+        <td style="text-align: center;"> # </td>
+    </tr>
+</table>
+
 And we see the message about the correct password :white_check_mark:.
 
 
