@@ -106,3 +106,18 @@ The first vulnerability I found was in this place in the code:
 
 ![Vulnerability 1. Part 1](imagesRDM/vuln1a.png)
 ![Vulnerability 1. Part 2](imagesRDM/vuln1b.png)
+
+At address 0x0120 the user fills the buffer at address 0x0132, where the first byte means the maximum number of characters that can be entered - this is how the 0Ah 21 interrupt function works (see below DOS thelp). 
+
+![thelp 0Ah function](imagesRDM/thelp0Ah.png)
+
+At address 0x0132 we see byte 1e<sub>16</sub> = 30<sub>10</sub> characters user can enter, this is more than the allocated buffer, which means we can change the program code with our input. 
+Idea: let's change the address from 0x0113 to 0x0132 at address 0x0143. Then we are comparing two identical strings. This combination of symbols breaks the program:
+
+![solve1](imagesRDM/solve1.png)
+
+This combination restores the source code, but with a converted string at address 0x0143. 
+
+And we see the message about the correct password :white_check_mark:.
+
+
