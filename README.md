@@ -112,7 +112,7 @@ At address 0x0120 the user fills the buffer at address 0x0132, where the first b
 ![thelp 0Ah function](imagesRDM/thelp0Ah.png)
 
 At address 0x0132 we see byte 1e<sub>16</sub> = 30<sub>10</sub> characters user can enter, this is more than the allocated buffer, which means we can change the program code with our input. 
-Idea: let's change the address from 0x0113 to 0x0132 at address 0x0143. Then we are comparing two identical strings. This combination of symbols breaks the program:
+**IDEA:** let's change the address from 0x0113 to 0x0132 at address 0x0143. Then we are comparing two identical strings. This combination of symbols breaks the program:
 
 ![solve1](imagesRDM/solve1.png)
 
@@ -121,48 +121,67 @@ This combination restores the source code, but with a converted string at addres
 <table>
     <tr>
         <th> BYTE </th>
-        <td style="text-align: center;"> BE </td>
-        <td style="text-align: center;"> 32 </td>
-        <td style="text-align: center;"> 01 </td>
-        <td style="text-align: center;"> 46 </td>
-        <td style="text-align: center;"> AC </td>
-        <td style="text-align: center;"> 8B </td>
-        <td style="text-align: center;"> С8 </td>
-        <td style="text-align: center;"> BF </td>
-        <td style="text-align: center;"> 34 </td>
-        <td style="text-align: center;"> EB </td>
-        <td style="text-align: center;"> 23 </td>
+        <td style="text-align: center"> BE </td>
+        <td style="text-align: center"> 32 </td>
+        <td style="text-align: center"> 01 </td>
+        <td style="text-align: center"> 46 </td>
+        <td style="text-align: center"> AC </td>
+        <td style="text-align: center"> 8B </td>
+        <td style="text-align: center"> С8 </td>
+        <td style="text-align: center"> BF </td>
+        <td style="text-align: center"> 34 </td>
+        <td style="text-align: center"> EB </td>
+        <td style="text-align: center"> 23 </td>
     </tr>
     <tr>
         <th> ASCII </th>
-        <td style="text-align: center;"> 190 </td>
-        <td style="text-align: center;"> 50 </td>
-        <td style="text-align: center;"> 1 </td>
-        <td style="text-align: center;"> 70 </td>
-        <td style="text-align: center;"> 172 </td>
-        <td style="text-align: center;"> 139 </td>
-        <td style="text-align: center;"> 200 </td>
-        <td style="text-align: center;"> 191 </td>
-        <td style="text-align: center;"> 52 </td>
-        <td style="text-align: center;"> 235 </td>
-        <td style="text-align: center;"> 35 </td>
+        <td style="text-align: center"> 190 </td>
+        <td style="text-align: center"> 50 </td>
+        <td style="text-align: center"> 1 </td>
+        <td style="text-align: center"> 70 </td>
+        <td style="text-align: center"> 172 </td>
+        <td style="text-align: center"> 139 </td>
+        <td style="text-align: center"> 200 </td>
+        <td style="text-align: center"> 191 </td>
+        <td style="text-align: center"> 52 </td>
+        <td style="text-align: center"> 235 </td>
+        <td style="text-align: center"> 35 </td>
     </tr>
     <tr>
         <th> KEYBOARD BUTTON </th>
-        <td style="text-align: center;"> alt + 190 </td>
-        <td style="text-align: center;"> 2 </td>
-        <td style="text-align: center;"> ctrl + a </td>
-        <td style="text-align: center;"> F </td>
-        <td style="text-align: center;"> м </td>
-        <td style="text-align: center;"> Л </td>
-        <td style="text-align: center;"> alt + 200 </td>
-        <td style="text-align: center;"> alt + 191 </td>
-        <td style="text-align: center;"> 4 </td>
-        <td style="text-align: center;"> ы </td>
-        <td style="text-align: center;"> # </td>
+        <td style="text-align: center"> alt + 190 </td>
+        <td style="text-align: center"> 2 </td>
+        <td style="text-align: center"> ctrl + a </td>
+        <td style="text-align: center"> F </td>
+        <td style="text-align: center"> м </td>
+        <td style="text-align: center"> Л </td>
+        <td style="text-align: center"> alt + 200 </td>
+        <td style="text-align: center"> alt + 191 </td>
+        <td style="text-align: center"> 4 </td>
+        <td style="text-align: center"> ы </td>
+        <td style="text-align: center"> # </td>
     </tr>
 </table>
 
 And we see the message about the correct password :white_check_mark:.
 
+## Vulnerability 2: buffer overflow but more interesting
 
+Let's look at the other two buffers where the user responses are put, they are right next to each other:
+
+![buffers for user](imagesRDM/buffers.png)
+
+Note, that the first buffer holds 0e<sub>16</sub> = 14<sub>10</sub> characters, so it overlaps the second buffer -> we can change the first byte of the second buffer, which means we can change the size of the second buffer.
+**IDEA:** Let's enter an incorrect password the first time, and on the second attempt enter such a string that the 11<sup>th</sup> character overwrites the byte at address 0x015b with a larger number. Next, we will answer the question [y/n]? with a string of 22 **'n'** and 23 character **'t'**, thus changing byte **75** at address 0x0173 to byte **74** (**jnz** will become **jz**). Since the first character in our string is 'n', we will return to the beginning of the program, and it remains to enter any password to get the same message.
+
+Like this:
+
+![solve part 1](imagesRDM/solve2a.png)
+
+\*\*Enter\*\*
+
+Type in whatever password you want, I'll type in "stay strong":
+
+![solve part 2](imagesRDM/solve2b.png)
+
+Here comes the long awaited message :white_check_mark:.
