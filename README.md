@@ -100,3 +100,9 @@ We understand that this is the memory area where strings are stored that invite 
 
 ![memory area](imagesRDM/memoryarea.png)
 
+## Vulnerability 1: buffer overflow
+
+The first vulnerability I found was in this place in the code:
+
+![Vulnerability 1. Part 1](imagesRDM/vuln1a.png)
+![Vulnerability 1. Part 2](imagesRDM/vuln1b.png)
