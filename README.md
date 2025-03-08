@@ -12,14 +12,10 @@ The programs are similar in its idea: the user must enter a password, if its cor
 
 # Content
 
-- [Egor's program (CRACK.COM)](#Egor's-program-(CRACK.COM))
-    - [How to program works](##How-to-program-works)         
-    - [Vulnerability 1: buffer overflow](##Vulnerability-1:-buffer-overflow)
-    - [Vulnerability 2: buffer overflow but more interesting](##Vulnerability-2:-buffer-overflow-but-more-interesting)
-- [My program](#My-program)
-    - [Vulnerability 1: love jmp](#Vulnerability-1:-love-jmp)
-    - [Vulnerability 2: stack overflow](#Vulnerability-2:-stack-overflow)
-- [My Patcher](#My-Patcher)
+- [Egor's program (CRACK.COM)](#egors-program-crackcom)
+    - [How to program works](#how-to-program-works)         
+    - [Vulnerability 1: buffer overflow](#vulnerability-1-buffer-overflow)
+    - [Vulnerability 2: buffer overflow but more interesting](#vulnerability-2-buffer-overflow-but-more-interesting)
 
 # Egor's program (CRACK.COM)
 
