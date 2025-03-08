@@ -16,6 +16,10 @@ The programs are similar in its idea: the user must enter a password, if its cor
     - [How to program works](#how-to-program-works)         
     - [Vulnerability 1: buffer overflow](#vulnerability-1-buffer-overflow)
     - [Vulnerability 2: buffer overflow but more interesting](#vulnerability-2-buffer-overflow-but-more-interesting)
+- [My program](#my-program)
+    - [Vulnerability 1: love jmp](#vulnerability-1-love-jmp)
+    - [Vulnerability 2: stack overflow](#vulnerability-2-stack-overflow)
+- [My Patcher](#my-patcher)
 
 # Egor's program (CRACK.COM)
 
@@ -181,3 +185,19 @@ Type in whatever password you want, I'll type in "stay strong":
 ![solve part 2](imagesRDM/solve2b.png)
 
 Here comes the long awaited message :white_check_mark:.
+
+# My program
+
+> [!IMPORTANT]  
+> If you want to try to hack my program, don't read the text below.
+
+The program prompts the user for a password. The password is encrypted using the DJB2 hash function. There are 2 vulnerabilities in the program (maybe more, who knows).
+
+## Vulnerability 1: ♥ love jmp ♥
+
+In the assembler code of my program you can find jmp with an interesting condition: if you enter '♥' as a password, you will get a successful message.
+
+## Vulnerability 2: stack overflow
+
+In my program, the user password is stored in a stack as a local variable. I use the 0Ah 21 interrupt function, so I have set the maximum number of characters the user can enter so that it is possible to overwrite the return address of the function.
+
