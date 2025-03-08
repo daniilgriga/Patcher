@@ -62,14 +62,16 @@ At the end, a function is **called** to get the password.
 
 This function accepts the password using the 0Ah function of 21 interrupt. Please note that the code from address 0x0125 will never be executed, this is how the program works, it will be better seen below.
 
+Here the function is **called** to check the password.
+
 #### Function to check password <1<sup>st</sup> attempt> (Address: 0x013c - 0x0189)
 
-![check password function](imagesRDM/checkfunc1try.png)
+![check password function 1](imagesRDM/checkfunc1try.png)
 
 The content of the function is quite strange, there is some buffer in the middle of it, because of this the disassembler detects some function, although it is unlikely to be a function.
 Note, that at the end of the function there is a jump to a "function" in the middle, but the program is designed so that we will never get to it (a function is called before it, which either ends the program by hanging, or returns us to the beginning of the program).
 
-Here two functions are called (without the function before the buffer):
+Here **two** functions are **called** (without the function before the buffer):
  - Function to output a new line
  - Function to get the password on the second attempt
 
@@ -79,5 +81,22 @@ Here two functions are called (without the function before the buffer):
 
 Just a function to go to a new line.
 
+#### Function to get password <2<sup>nd</sup> attempt> (Address: 0x01d5 - 0x01e9)
 
+![Second input function](imagesRDM/secondinput.png)
+
+Similar to the first function for getting the password, we get a prompt to enter the password and enter it.
+
+Next, the function is **called** to check the password.
+
+#### Function to check password <2<sup>nd</sup> attempt> (Address: 0x018b - 0x01d2)
+
+![check password function 2](imagesRDM/checkfunc2try.png)
+
+From the disassembled code we can see that the second attempt will never match the correct password, because cmpsb will perform a large number of iterations due to the large value in CX.
+
+Also here we can see what was said earlier: the program either takes us back and gives us two more input attempts or performs a jmp to an obscure address. 
+We understand that this is the memory area where strings are stored that invite the user to enter the password for the whole program:
+
+![memory area](imagesRDM/memoryarea.png)
 
