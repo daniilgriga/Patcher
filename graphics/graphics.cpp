@@ -7,9 +7,9 @@ int main ()
 {
     sf::RenderWindow window (sf::VideoMode (500, 700), "Patcher GRD");
 
-    window.setActive(true);
-    window.requestFocus();
-    window.setMouseCursorGrabbed(true);
+    window.setActive (true);
+    window.requestFocus ();
+    window.setMouseCursorGrabbed (true);
 
     // ========================= MUSIC ========================= //
     sf::Music music;
@@ -51,7 +51,7 @@ int main ()
     unsigned int currentFrame = 0;
     // ======================== TEXTFIELD ======================= //
 
-    sf::RectangleShape textField (sf::Vector2f (300, 50));
+    sf::RectangleShape textField (sf::Vector2f (492.f, 50.f));
     textField.setPosition (4, 571);
     textField.setFillColor (sf::Color::Black);
     textField.setOutlineThickness (2);
@@ -62,10 +62,44 @@ int main ()
     inputText.setCharacterSize (20);
     inputText.setFillColor (sf::Color(255, 255, 214));
     inputText.setPosition ( textField.getPosition ().x + 5,
-                            textField.getPosition ().y + (textField.getSize ().y - inputText.getGlobalBounds ().height) / 2 );
+                            textField.getPosition ().y + (textField.getSize ().y - inputText.getGlobalBounds ().height) / 2 - 8);
 
     std::string text = "";
     const int maxLength = 20;
+
+    sf::Text placeholderText;
+    placeholderText.setFont (font);
+    placeholderText.setString ("Enter the password...");
+    placeholderText.setCharacterSize (20);
+    placeholderText.setFillColor (sf::Color(128, 128, 128));
+    placeholderText.setPosition ( textField.getPosition ().x + 5,
+                                  textField.getPosition ().y + (textField.getSize ().y - placeholderText.getGlobalBounds ().height) / 2 );
+
+    sf::RectangleShape cursor (sf::Vector2f (2, 20));
+    cursor.setFillColor (sf::Color::White);
+    cursor.setPosition (inputText.getPosition ().x, inputText.getPosition ().y + 2);
+    bool showCursor = true;
+    bool isActive   = false;
+    sf::Clock cursorClock;
+
+    // ========================= MESSAGE ======================== //
+
+    sf::RectangleShape message(sf::Vector2f(494, 80));
+    message.setFillColor(sf::Color(50, 50, 50)); // Тёмный фон
+    message.setOutlineThickness(2);
+    message.setOutlineColor(sf::Color(255, 255, 214));
+    message.setPosition(3, 300);
+
+    sf::Text messageText;
+    messageText.setFont (font);
+    messageText.setString ("For hacking, enter the password!");
+    messageText.setCharacterSize (22);
+    messageText.setFillColor (sf::Color(255, 255, 214));
+    messageText.setPosition ( message.getPosition ().x + (message.getSize ().x - messageText.getGlobalBounds ().width)  / 2,
+                              message.getPosition ().y + (message.getSize ().y - messageText.getGlobalBounds ().height) / 2 );
+
+    bool showMessage = false;
+    sf::Clock messageTimer;
 
     // ========================= BUTTONS ======================== //
     sf::RectangleShape startButton (sf::Vector2f (492.f, 50.f));
@@ -111,17 +145,20 @@ int main ()
             if (event.type == sf::Event::Closed)
                 window.close ();
 
-            if (event.type == sf::Event::TextEntered)
+            if (isActive && event.type == sf::Event::TextEntered)
             {
                 if (event.text.unicode < 128)
                 {
-                    if (event.text.unicode == 8 && !text.empty ())
+                    if (event.text.unicode == 8 && !text.empty ()) // 8 = backspace
                         text.pop_back ();
 
                     else if (event.text.unicode != 8 && text.length () < 15) // need const
-                        text += static_cast<char>(event.text.unicode);
+                        text += static_cast<char> (event.text.unicode);
 
                     inputText.setString (text);
+
+                    cursor.setPosition ( inputText.getPosition ().x + inputText.getGlobalBounds ().width + 2,
+                                        inputText.getPosition ().y + 2 );
                 }
             }
 
@@ -153,10 +190,21 @@ int main ()
             {
                 sf::Vector2i mousePos = sf::Mouse::getPosition (window);
 
+                sf::FloatRect fieldBounds = textField.getGlobalBounds ();
+                isActive = fieldBounds.contains(static_cast<float> (mousePos.x), static_cast<float> (mousePos.y));
+
                 if (startButton.getGlobalBounds ().contains (mousePos.x, mousePos.y))
                 {
-                    std::cout << "program is starting...\n";
-                    system ("../build/test ../CRACK.COM ../rules.txt ../cracked.com");
+                    if (!text.empty ())
+                    {
+                        std::cout << "Program is hacking...\n";
+                        system ("../build/test ../CRACK.COM ../rules.txt ../cracked.com");
+                    }
+                    else
+                    {
+                        showMessage = true;
+                        messageTimer.restart ();
+                    }
                 }
 
                 if (exitButton.getGlobalBounds ().contains (mousePos.x, mousePos.y))
@@ -175,8 +223,16 @@ int main ()
             currentTime = 0.f;
             currentFrame = (currentFrame + 1) % frames.size ();
             display.setTexture (frames[currentFrame]);
-
         }
+
+        if (isActive && cursorClock.getElapsedTime ().asSeconds () > 0.5f)
+        {
+            showCursor = !showCursor;
+            cursorClock.restart ();
+        }
+
+        if (showMessage && messageTimer.getElapsedTime().asSeconds() > 3.0f)
+            showMessage = false;
 
         // rendering
         window.clear (sf::Color::Black);
@@ -186,7 +242,20 @@ int main ()
         window.draw (exitButton);
         window.draw (exitText);
         window.draw (textField);
+
+        if (text.empty ())
+            window.draw (placeholderText);
         window.draw (inputText);
+
+        if (isActive && showCursor)
+            window.draw (cursor);
+
+        if (showMessage)
+        {
+            window.draw(message);
+            window.draw(messageText);
+        }
+
         window.display ();
     }
 
