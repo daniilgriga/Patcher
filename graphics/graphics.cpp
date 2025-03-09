@@ -49,6 +49,23 @@ int main ()
     float frameTime = 0.05f;              // velocity of animation (per second)
     float currentTime = 0.f;
     unsigned int currentFrame = 0;
+    // ======================== TEXTFIELD ======================= //
+
+    sf::RectangleShape textField (sf::Vector2f (300, 50));
+    textField.setPosition (4, 571);
+    textField.setFillColor (sf::Color::Black);
+    textField.setOutlineThickness (2);
+    textField.setOutlineColor (sf::Color(255, 255, 214));
+
+    sf::Text inputText;
+    inputText.setFont (font);
+    inputText.setCharacterSize (20);
+    inputText.setFillColor (sf::Color(255, 255, 214));
+    inputText.setPosition ( textField.getPosition ().x + 5,
+                            textField.getPosition ().y + (textField.getSize ().y - inputText.getGlobalBounds ().height) / 2 );
+
+    std::string text = "";
+    const int maxLength = 20;
 
     // ========================= BUTTONS ======================== //
     sf::RectangleShape startButton (sf::Vector2f (492.f, 50.f));
@@ -93,6 +110,20 @@ int main ()
         {
             if (event.type == sf::Event::Closed)
                 window.close ();
+
+            if (event.type == sf::Event::TextEntered)
+            {
+                if (event.text.unicode < 128)
+                {
+                    if (event.text.unicode == 8 && !text.empty ())
+                        text.pop_back ();
+
+                    else if (event.text.unicode != 8 && text.length () < 15) // need const
+                        text += static_cast<char>(event.text.unicode);
+
+                    inputText.setString (text);
+                }
+            }
 
             if (event.type == sf::Event::MouseMoved)
             {
@@ -154,6 +185,8 @@ int main ()
         window.draw (startText);
         window.draw (exitButton);
         window.draw (exitText);
+        window.draw (textField);
+        window.draw (inputText);
         window.display ();
     }
 
