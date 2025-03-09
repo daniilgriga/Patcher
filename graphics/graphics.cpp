@@ -5,7 +5,7 @@
 
 int main ()
 {
-    sf::RenderWindow window (sf::VideoMode (500, 800), "Patcher GRD");
+    sf::RenderWindow window (sf::VideoMode (500, 700), "Patcher GRD");
 
     window.setActive(true);
     window.requestFocus();
@@ -13,7 +13,7 @@ int main ()
 
     // ========================= MUSIC ========================= //
     sf::Music music;
-    if (!music.openFromFile (".mp3"))
+    if (!music.openFromFile (".Platina.mp3"))
     {
         std::cerr << "Load music ERROR\n";
         //return 1;
@@ -43,21 +43,6 @@ int main ()
         }
         frames.push_back (frame);
     }
-//     sf::Texture texture;
-//     if (!texture.loadFromFile ("images/spritesheet.png"))
-//     {
-//         std::cerr << "Load spritesheet ERROR\n";
-//         return 1;
-//     }
-//
-//     sf::Sprite sprite;
-//     sprite.setTexture (texture);
-//     sprite.setTextureRect (sf::IntRect (0, 0, 888, 500));
-//
-//     float frameTime = 0.1f;
-//     float currentTime = 0.f;
-//     unsigned int currentFrame = 0;
-
 
     sf::Sprite display;
     display.setTexture (frames[0]);
@@ -65,59 +50,39 @@ int main ()
     float currentTime = 0.f;
     unsigned int currentFrame = 0;
 
-    // ========================================================= //
-//     sf::Texture customImageTexture;
-//     if (!customImageTexture.loadFromFile ("images/background.jpg"))
-//     {
-//         std::cerr << "Load pictures ERROR\n";
-//         return 1;
-//     }
-//
-//     sf::Sprite customImageSprite;
-//     customImageSprite.setTexture (customImageTexture);
-//     customImageSprite.setPosition (0.f, 350.f);
-//     customImageSprite.setScale (740.f / customImageTexture.getSize ().x, 250.f / customImageTexture.getSize ().y);
-
-
-
     // ========================= BUTTONS ======================== //
-    //sf::Texture startButtonTexture;
-    //if (!startButtonTexture.loadFromFile ("butt.jpg"))
-    //{
-    //    std::cerr << "Load texture for go ERROR\n";
-    //    return 1;
-    //}
-
-    //sf::Sprite startButton;
-    //startButton.setTexture (startButtonTexture);
-    //startButton.setPosition (200.f, 400.f);
-    sf::RectangleShape startButton (sf::Vector2f (150.f, 50.f));
-    startButton.setPosition (110.f, 410.f);
+    sf::RectangleShape startButton (sf::Vector2f (492.f, 50.f));
+    startButton.setPosition (4.f, 500.f);
     startButton.setFillColor (sf::Color::Black);
     startButton.setOutlineThickness (2);
-    startButton.setOutlineColor (sf::Color::White);
+    startButton.setOutlineColor (sf::Color(255, 255, 214));
 
     sf::Text startText;
     startText.setFont (font);
     startText.setString ("Hack");
     startText.setCharacterSize (20);
-    startText.setFillColor (sf::Color::White);
+    startText.setFillColor (sf::Color(255, 255, 214));
     startText.setPosition ( startButton.getPosition ().x + (startButton.getSize ().x - startText.getGlobalBounds ().width)  / 2,
-                            startButton.getPosition ().y + (startButton.getSize ().y - startText.getGlobalBounds ().height) / 2 );
+                            startButton.getPosition ().y + (startButton.getSize ().y - startText.getGlobalBounds ().height) / 2 - 3 );
 
-    bool IsHovered = false;
-    // ========================================================== //
-    sf::RectangleShape exitButton (sf::Vector2f (200.f, 50.f));
-    exitButton.setPosition (430.f, 410.f);
-    exitButton.setFillColor (sf::Color::White);
+    bool IsHoveredexit = false;
+
+    sf::RectangleShape exitButton (sf::Vector2f (492.f, 50.f));
+    exitButton.setPosition (4.f, 646.f);
+    exitButton.setFillColor (sf::Color::Black);
+    exitButton.setOutlineThickness (2);
+    exitButton.setOutlineColor (sf::Color(255, 255, 214));
 
     sf::Text exitText;
     exitText.setFont (font);
-    exitText.setString ("OUT");
-    exitText.setCharacterSize (24);
-    exitText.setFillColor (sf::Color::Black);
-    exitText.setPosition (495.f, 420.f);
+    exitText.setString ("Exit");
+    exitText.setCharacterSize (20);
+    exitText.setFillColor (sf::Color(255, 255, 214));
+    exitText.setPosition ( exitButton.getPosition ().x + (exitButton.getSize ().x - exitText.getGlobalBounds ().width)  / 2,
+                           exitButton.getPosition ().y + (exitButton.getSize ().y - exitText.getGlobalBounds ().height) / 2 - 3 );
 
+    bool IsHoveredstart = false;
+    // ========================================================== //
     sf::Clock clock;
 
     // MAIN
@@ -132,23 +97,26 @@ int main ()
             if (event.type == sf::Event::MouseMoved)
             {
                 sf::Vector2i MousePos = sf::Mouse::getPosition (window);
-                sf::FloatRect ButtonBounds = startButton.getGlobalBounds ();
+                sf::FloatRect ButtonBoundsStart = startButton.getGlobalBounds ();
+                sf::FloatRect ButtonBoundsExit  =  exitButton.getGlobalBounds ();
 
-                IsHovered = ButtonBounds.contains (MousePos.x, MousePos.y);
+                IsHoveredstart = ButtonBoundsStart.contains (MousePos.x, MousePos.y);
+                IsHoveredexit  = ButtonBoundsExit.contains (MousePos.x, MousePos.y);
 
-                startButton.setFillColor (IsHovered ? sf::Color(50, 50, 50) : sf::Color::Black);
+                startButton.setFillColor (IsHoveredstart ? sf::Color(50, 50, 50) : sf::Color::Black);
+                 exitButton.setFillColor (IsHoveredexit  ? sf::Color(50, 50, 50) : sf::Color::Black);
             }
 
-            if (event.type == sf::Event::GainedFocus)
-                std::cout << "window get focus" << std::endl;
-            if (event.type == sf::Event::LostFocus)
-                std::cout << "window lost focus" << std::endl;
+            //if (event.type == sf::Event::GainedFocus)
+            //    std::cout << "window get focus" << std::endl;
+            //if (event.type == sf::Event::LostFocus)
+            //    std::cout << "window lost focus" << std::endl;
 
-            if (event.type == sf::Event::MouseMoved)
-            {
-                sf::Vector2i mousePos = sf::Mouse::getPosition (window);
-                std::cout << "Мышь: " << mousePos.x << ", " << mousePos.y << std::endl;
-            }
+            //if (event.type == sf::Event::MouseMoved)
+            //{
+            //    sf::Vector2i mousePos = sf::Mouse::getPosition (window);
+            //    std::cout << "MOUSE: " << mousePos.x << ", " << mousePos.y << std::endl;
+            //}
 
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
             {
@@ -181,7 +149,6 @@ int main ()
 
         // rendering
         window.clear (sf::Color::Black);
-        //window.draw (customImageSprite);
         window.draw (display);
         window.draw (startButton);
         window.draw (startText);
