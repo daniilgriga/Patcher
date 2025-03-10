@@ -198,7 +198,7 @@ int main ()
                     if (!text.empty ())
                     {
                         std::cout << "Program is hacking...\n";
-                        system ("../build/test ../CRACK.COM ../rules.txt ../cracked.com");
+                        system ("../build/test ../programs/CRACK.COM ../programs/rules.txt ../programs/cracked.com");
                     }
                     else
                     {
