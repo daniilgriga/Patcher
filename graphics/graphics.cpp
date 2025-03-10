@@ -152,7 +152,7 @@ int main ()
                     if (event.text.unicode == 8 && !text.empty ()) // 8 = backspace
                         text.pop_back ();
 
-                    else if (event.text.unicode != 8 && text.length () < 15) // need const
+                    else if (event.text.unicode != 8 && text.length () < 25) // need const
                         text += static_cast<char> (event.text.unicode);
 
                     inputText.setString (text);
