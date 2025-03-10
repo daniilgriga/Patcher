@@ -223,6 +223,15 @@ Build for graphics:
 
 ## Graphic cover
 
+The program implements such details as:
+- Beautiful animation (uses std::vector\<sf::Texture\>)
+- Two working buttons
+    - “Hack” - hack Egor's program (literal system () && mouseover animation is supported)
+    - “Exit” - exit the program (mouseover animation is supported)
+- Password entry field
+    - Cursor 
+    - Placeholder text (“Enter the password...”)
+
 This is what the program looks like immediately after launching:
 
 ![patcher1](imagesRDM/patcher1.png)
