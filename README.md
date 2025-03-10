@@ -17,7 +17,7 @@ The programs are similar in its idea: the user must enter a password, if its cor
     - [Vulnerability 1: buffer overflow](#vulnerability-1-buffer-overflow)
     - [Vulnerability 2: buffer overflow but more interesting](#vulnerability-2-buffer-overflow-but-more-interesting)
 - [My program](#my-program)
-    - [Vulnerability 1: ♥ love jmp ♥](#vulnerability-1-love-jmp)
+    - [Vulnerability 1: ♥love jmp♥](#vulnerability-1-love-jmp)
     - [Vulnerability 2: stack overflow](#vulnerability-2-stack-overflow)
 - [My Patcher](#my-patcher)
     - [Build](#build)
@@ -195,7 +195,7 @@ Here comes the long awaited message :white_check_mark:.
 
 The program prompts the user for a password. The password is encrypted using the DJB2 hash function. There are 2 vulnerabilities in the program (maybe more, who knows).
 
-## Vulnerability 1: ♥ love jmp ♥
+## Vulnerability 1: ♥love jmp♥
 
 In the assembler code of my program you can find jmp with an interesting condition: if you enter '♥' as a password, you will get a successful message.
 
