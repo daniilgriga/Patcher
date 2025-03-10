@@ -220,3 +220,15 @@ Build for graphics:
 ```
 ~/Patcher/graphics$ make
 ```
+
+## Graphic cover
+
+This is what the program looks like immediately after launching:
+
+![patcher1](imagesRDM/patcher1.png)
+
+But to start the hack (Hack button) you must enter a password (any password you want...):
+
+![patcher2](imagesRDM/patcher2.png)
+
+# Thanks!
