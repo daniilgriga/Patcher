@@ -40,7 +40,7 @@ build/%.o: src/%.c
 	@$(CC) -I./include $(CFLAGS) -MMD -MP $< -o $@
 
 run:
-	./$(EXECUTABLE) CRACK.COM rules.txt cracked.com
+	./$(EXECUTABLE) programs/CRACK.COM programs/rules.txt programs/cracked.com
 
 clean:
 	rm -f build/*.o $(EXECUTABLE)

@@ -10,8 +10,11 @@ FILE* OpenFile (const char* filename, const char* mode)
     assert (   mode  &&  "mode " "is NULL in OpenFile");
 
     FILE* file = fopen (filename, mode);
-
-    assert (file && "fopen error: file is NULL in OpenFile");
+    if ( file == NULL )
+    {
+        fprintf (stderr, "Could not find the '%s' to be opened!" "\n", filename);
+        return NULL;
+    }
 
     return file;
 }
@@ -21,19 +24,18 @@ long FileSize (FILE* file_ptr)
     assert (file_ptr && "file_ptr is NULL in FileSize" "\n");
 
     long curr_pos = ftell (file_ptr);
+    if ( curr_pos == -1L )
+        return -1;
 
-    assert (curr_pos != -1L && "ftell_error (-1L) in curr_pos in FileSize" "\n");
-
-    if (fseek (file_ptr, 0L, SEEK_END))
-        assert (0 && "fseek error in FileSize" "\n");
+    if ( fseek (file_ptr, 0L, SEEK_END) )
+        return -1;
 
     long number_symbols = ftell (file_ptr);
+    if ( number_symbols == -1L && number_symbols <= 0)
+        return -1;
 
-    assert (number_symbols != -1L && "ftell_error (-1L) in number_symbols in FileSize" "\n");
-    assert (number_symbols  >  0L && "ftell_error (>0L) in number_symbols in FileSize" "\n");
-
-    if (fseek (file_ptr, curr_pos, SEEK_SET))
-        assert (0 && "fseek error in FileSize" "\n");
+    if ( fseek (file_ptr, curr_pos, SEEK_SET) )
+        return -1;
 
     return number_symbols;
 }
@@ -44,8 +46,11 @@ char* ReadInBuffer (FILE* file_ptr, const long numb_symb)
     assert (numb_symb > 0L && "numb_symb <= 0 in ReadInBuffer" "\n");
 
     char* buffer = (char*) calloc ((size_t)numb_symb + 1, sizeof (char));               // EOF -> +1
-
-    assert (buffer && "buffer is NULL in ReadInBuffer" "\n");
+    if (buffer == NULL)
+    {
+        fprintf (stderr, "");
+        return NULL;
+    }
 
     size_t read_symb = fread (buffer, sizeof (buffer[0]), (size_t) numb_symb, file_ptr);
 
@@ -62,6 +67,8 @@ int CloseFile (FILE* file_ptr, const char* filename)
     fprintf (stderr, "%s is closing..." "\n", filename);
 
     assert ( fclose (file_ptr) == 0 && "fclose error in CloseFile");
+
+    fprintf (stderr, "%s is closed" "\n", filename);
 
     return 0;
 }
