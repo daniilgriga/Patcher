@@ -17,9 +17,11 @@ The programs are similar in its idea: the user must enter a password, if its cor
     - [Vulnerability 1: buffer overflow](#vulnerability-1-buffer-overflow)
     - [Vulnerability 2: buffer overflow but more interesting](#vulnerability-2-buffer-overflow-but-more-interesting)
 - [My program](#my-program)
-    - [Vulnerability 1: love jmp](#vulnerability-1-love-jmp)
+    - [Vulnerability 1: ♥ love jmp ♥](#vulnerability-1-love-jmp)
     - [Vulnerability 2: stack overflow](#vulnerability-2-stack-overflow)
 - [My Patcher](#my-patcher)
+    - [Build](#build)
+    - [Graphic cover](#graphic-cover)
 
 # Egor's program (CRACK.COM)
 
@@ -201,3 +203,20 @@ In the assembler code of my program you can find jmp with an interesting conditi
 
 In my program, the user password is stored in a stack as a local variable. I use the 0Ah 21 interrupt function, so I have set the maximum number of characters the user can enter so that it is possible to overwrite the return address of the function.
 
+# My patcher
+
+To change bytes in the executable file of Egor's program, I wrote my own C patcher and a graphical cover for it in C++ using [SFML](https://github.com/SFML/SFML) in Ubuntu-24.04.
+
+## Build
+
+Build for C program:
+
+```
+~/Patcher$ make
+```
+
+Build for graphics:
+
+```
+~/Patcher/graphics$ make
+```
