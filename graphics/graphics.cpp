@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+const int MAX_SYMBOLS = 25;
+
 int main ()
 {
     sf::RenderWindow window (sf::VideoMode (500, 700), "Patcher GRD");
@@ -13,10 +15,10 @@ int main ()
 
     // ========================= MUSIC ========================= //
     sf::Music music;
-    if (!music.openFromFile (".Platina.mp3"))
+    if (!music.openFromFile ("music.mp3"))
     {
-        std::cerr << "Load music ERROR\n";
-        //return 1;
+        std::cerr << "Load music ERROR" "\n";
+        return 1;
     }
 
     music.setLoop (true);
@@ -26,19 +28,19 @@ int main ()
     sf::Font font;
     if (!font.loadFromFile ("arial_b.ttf"))
     {
-        std::cerr << "Load font ERROR\n";
+        std::cerr << "Load font ERROR" "\n";
         return 1;
     }
 
     // ======================= ANIMATION ======================= //
-    std::vector<sf::Texture> frames; // container (dynamic array)
+    std::vector<sf::Texture> frames;      // container (dynamic array)
     for (int i = 1; i < 150; ++i)
     {
         sf::Texture frame;
         std::string filename = "images/frames/" + std::to_string (i) + ".gif";
         if (!frame.loadFromFile (filename))
         {
-            std::cerr << "Load pictures ERROR " << filename << "\n";
+            std::cerr << "Load pictures ERROR: " << filename << "\n";
             return 1;
         }
         frames.push_back (frame);
@@ -85,7 +87,7 @@ int main ()
     // ========================= MESSAGE ======================== //
 
     sf::RectangleShape message(sf::Vector2f(494, 80));
-    message.setFillColor(sf::Color(50, 50, 50)); // Тёмный фон
+    message.setFillColor(sf::Color(50, 50, 50));
     message.setOutlineThickness(2);
     message.setOutlineColor(sf::Color(255, 255, 214));
     message.setPosition(3, 300);
@@ -149,10 +151,10 @@ int main ()
             {
                 if (event.text.unicode < 128)
                 {
-                    if (event.text.unicode == 8 && !text.empty ()) // 8 = backspace
+                    if (event.text.unicode == 8 && !text.empty ())                    // 8 = backspace
                         text.pop_back ();
 
-                    else if (event.text.unicode != 8 && text.length () < 25) // need const
+                    else if (event.text.unicode != 8 && text.length () < MAX_SYMBOLS) // need const
                         text += static_cast<char> (event.text.unicode);
 
                     inputText.setString (text);
@@ -197,7 +199,7 @@ int main ()
                 {
                     if (!text.empty ())
                     {
-                        std::cout << "Program is hacking...\n";
+                        std::cout << "Program is hacking..." "\n";
                         system ("../build/test ../programs/CRACK.COM ../programs/rules.txt ../programs/cracked.com");
                     }
                     else
@@ -252,8 +254,8 @@ int main ()
 
         if (showMessage)
         {
-            window.draw(message);
-            window.draw(messageText);
+            window.draw (message);
+            window.draw (messageText);
         }
 
         window.display ();
