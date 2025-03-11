@@ -6,6 +6,7 @@
 
 #include "file.h"
 #include "patch.h"
+#include "errors.h"
 
 struct Byte_t
 {
@@ -20,10 +21,19 @@ int Patch (char* buffer, const char* rules_filename)
     assert (rules_filename && "rules_filename is NULL in Patch" "\n");
 
     FILE* rules_file = OpenFile (rules_filename, "rb");
+    if (rules_file == NULL)
+        return FILE_OPEN_ERR;
 
     long numb_symb = FileSize (rules_file);
+    if ( numb_symb == NO_SYMBOLS_ERR )
+        return FILE_SIZE_ERR;
 
     char* rules_buffer = ReadInBuffer (rules_file, numb_symb);
+    if (rules_buffer == NULL)
+        return CREATE_BUF_ERR;
+
+    if ( CloseFile (rules_file) )
+        return FILE_CLOSE_ERR;
 
     char* ptr_rules = rules_buffer;
 
@@ -37,17 +47,20 @@ int Patch (char* buffer, const char* rules_filename)
 
     free (rules_buffer);
 
-    return 0;
+    return NO_ERRORS;
 }
 
 int ReplaceByte (char* buffer, char** ptr_rules)
 {
+    assert (buffer && "Buffer is NULL in ReplaceByte" "\n");
+    assert (ptr_rules && "ptr_rules is NULL in ReplaceByte" "\n");
+
     struct Byte_t byte = GetByte (ptr_rules);
 
     if ((int) buffer[byte.address] == byte.curr_value)
               buffer[byte.address] = (char) byte.next_value;
     else
-        fprintf (stderr, "oh.. maybe this program already patched.. :(" "\n\n");
+        fprintf (stderr, "Oh.. maybe this program already patched.. :(" "\n\n");
 
     return 0;
 }
@@ -70,9 +83,9 @@ char* GetHex (int* byte_param, char* buffer_ptr)
     assert (byte_param && "byte_param is NULL in GetHex" "\n");
     assert (buffer_ptr && "buffer_ptr is NULL in GetHex" "\n");
 
-    char temp[8] = {};                                                  // 8 for stack protector
-    size_t i = 0;
+    char temp[8] = {};                                                    // 8 for stack protector
 
+    size_t i = 0;
     while (true)
     {
         if (*buffer_ptr == '<')
