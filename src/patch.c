@@ -25,7 +25,7 @@ int Patch (char* buffer, const char* rules_filename)
         return FILE_OPEN_ERR;
 
     long numb_symb = FileSize (rules_file);
-    if ( numb_symb == NO_SYMBOLS_ERR )
+    if ( numb_symb == FILE_SIZE_ERR )
         return FILE_SIZE_ERR;
 
     char* rules_buffer = ReadInBuffer (rules_file, numb_symb);
@@ -36,6 +36,10 @@ int Patch (char* buffer, const char* rules_filename)
         return FILE_CLOSE_ERR;
 
     char* ptr_rules = rules_buffer;
+
+    int offset = 0;
+    sscanf (ptr_rules, " %*[^\n] %n", &offset);
+    ptr_rules += offset;
 
     ReplaceByte (buffer, &ptr_rules);
 
@@ -84,34 +88,16 @@ char* GetHex (int* byte_param, char* buffer_ptr)
     assert (buffer_ptr && "buffer_ptr is NULL in GetHex" "\n");
 
     char temp[8] = {};                                                    // 8 for stack protector
+    int offset   = 0;
 
-    size_t i = 0;
-    while (true)
-    {
-        if (*buffer_ptr == '<')
-        {
-            buffer_ptr += 3;                                            // skip "<0x"
+    sscanf (buffer_ptr, " <%[^>]> %n", temp, &offset);
 
-            i = 0;
-            while (*buffer_ptr != '>')
-            {
-                temp[i] = *buffer_ptr;
-                buffer_ptr++;
-                i++;
-            }
-
-            break;
-        }
-        else
-            buffer_ptr++;
-    }
-
-    fprintf (stderr, "i = %zu >>> byte.param = %s"   "\n", i, temp);
+    fprintf (stderr, " >>> byte.param = %s"   "\n", temp);
 
     char* end_p = NULL;
     *byte_param = (int) strtol (temp, &end_p, 16);
 
-    fprintf (stderr, "i = %zu >>> byte.param = %d" "\n\n", i, *byte_param);
+    fprintf (stderr, " >>> byte.param = %d" "\n\n", *byte_param);
 
-    return buffer_ptr;
+    return buffer_ptr + offset;
 }

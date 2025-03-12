@@ -4,6 +4,7 @@
 #include "file.h"
 #include "patch.h"
 #include "errors.h"
+#include "tools.h"
 
 int main (const int argc, const char* argv[])
 {
@@ -19,7 +20,7 @@ int main (const int argc, const char* argv[])
         return FILE_OPEN_ERR;
 
     long numb_symb = FileSize (input_file);
-    if ( numb_symb == NO_SYMBOLS_ERR )
+    if ( numb_symb == FILE_SIZE_ERR )
         return FILE_SIZE_ERR;
 
     char* buffer = ReadInBuffer (input_file, numb_symb);
@@ -44,6 +45,7 @@ int main (const int argc, const char* argv[])
     if (out_filename == NULL)
     {
         fprintf (stderr, "You don't enter output file in third cmd argument!" "\n");
+        PATCHER_ERROR_CHECK (NULL_PTR_ERR)
         return NULL_PTR_ERR;
     }
 
@@ -55,13 +57,14 @@ int main (const int argc, const char* argv[])
     if (writed_symb != (size_t) numb_symb)
     {
         perror ("The following error occurred");
-        return FILE_SIZE_ERR;
+        PATCHER_ERROR_CHECK (WRITE_BUF_ERR)
+        return WRITE_BUF_ERR;
     }
 
     if ( CloseFile (output_file) )
         return FILE_CLOSE_ERR;
 
-    free (buffer);   // should i put this in every if
+    free (buffer);
 
     return 0;
 }
