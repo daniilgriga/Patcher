@@ -94,9 +94,10 @@ Next, it **calls** function to check the password.
 
 ![check password function 2](imagesRDM/checkfunc2try.png)
 
-From the disassembled code we can see that the second attempt will never match the correct password, because *cmpsb* will perform a large number of iterations due to the large value in CX.
+The second attempt will never match the correct password, because *cmpsb* will perform a large number of iterations due to the large value in CX.
 
 Also here we can see what was said earlier: the program either takes us back and gives us two more input attempts or performs a *jmp* to an obscure address. 
+
 We understand that this is the memory area where strings are stored that invites the user to enter the password for the whole program:
 
 ![memory area](imagesRDM/memoryarea.png)
@@ -113,6 +114,7 @@ At address **<0x0120>** the user fills the buffer at address **<0x0132>**, where
 ![thelp 0Ah function](imagesRDM/thelp0Ah.png)
 
 At address **<0x0132>** we see byte 1e<sub>16</sub> = 30<sub>10</sub> characters user can enter, this is more than the allocated buffer, which means we can change the program code with our input. 
+
 **IDEA:** let's change the address from **<0x0113>** to **<0x0132>** at address **<0x0143>**. Then we are comparing two identical strings. This combination of symbols breaks the program:
 
 ![solve1](imagesRDM/solve1.png)
@@ -173,7 +175,13 @@ Let's look at the other two buffers where the user responses are put, they are r
 ![buffers for user](imagesRDM/buffers.png)
 
 Note, that the first buffer holds 0e<sub>16</sub>, i.e. 14<sub>10</sub> characters, so it overlaps the second buffer -> we can change the first byte of the second buffer, which means we can change the size of the second buffer.
-**IDEA:** Let's enter an incorrect password the first time, and on the second attempt enter a string that the 11<sup>th</sup> character overwrites the byte at address 0x015b with a larger number. Next, we will answer the question [y/n]? with a string of 22 *'n'* and 23 character *'t'*, thus changing byte *75* at address **<0x0173>** to byte *74* (*jnz* will become *jz*). Since the first character in our string is 'n', we will return to the beginning of the program, and it remains to enter any password to get the same message.
+
+**IDEA:**
+1. Let's enter an incorrect password the first time, and on the second attempt enter a string that the 11<sup>th</sup> character overwrites the byte at address **<0x015b>** with a larger number. 
+
+2. Next, we will answer the question **[y/n]?** with a string of 22 *'n'* and 23 character *'t'*, thus changing byte *75* at address **<0x0173>** to byte *74* (*jnz* will become *jz*). 
+
+3. Since the first character in our string is 'n', we will return to the beginning of the program, and it remains to enter any password to get the same message.
 
 Like this:
 
