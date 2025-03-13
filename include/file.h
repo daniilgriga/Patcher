@@ -7,6 +7,6 @@ long FileSize (FILE* file_ptr);
 
 char* ReadInBuffer (FILE* file_ptr, const long numb_symb);
 
-int CloseFile (FILE* file_ptr);
+enum PatcherErrors CloseFile (FILE* file_ptr);
 
 #endif // FILE_H

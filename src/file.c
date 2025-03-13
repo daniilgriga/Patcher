@@ -15,18 +15,16 @@ FILE* OpenFile (const char* filename, const char* mode)
     if ( file == NULL )
     {
         fprintf (stderr, "\n" "Could not find the '%s' to be opened!" "\n", filename);
-        PATCHER_ERROR_CHECK (FILE_OPEN_ERR)
         return NULL;
     }
 
     return file;
 }
 
-#define FILE_SIZE_CHECK(status)   if ( status )                                 \
-                                  {                                             \
-                                      perror ("The following error occurred");  \
-                                      PATCHER_ERROR_CHECK (FILE_SIZE_ERR);      \
-                                      return FILE_SIZE_ERR;                     \
+#define FILE_SIZE_CHECK(status)   if ( status )                                         \
+                                  {                                                     \
+                                      perror ("The following error occurred");          \
+                                      PATCHER_ERR_CHECK_RET_STATUS (FILE_SIZE_ERR);     \
                                   }
 
 long FileSize (FILE* file_ptr)
@@ -52,32 +50,27 @@ char* ReadInBuffer (FILE* file_ptr, const long numb_symb)
 {
     char* buffer = (char*) calloc ( (size_t) numb_symb + 1, sizeof (char) );               // EOF -> +1
     if (buffer == NULL)
-    {
-        PATCHER_ERROR_CHECK (CREATE_BUF_ERR)
         return NULL;
-    }
 
     size_t read_symb = fread (buffer, sizeof (buffer[0]), (size_t) numb_symb, file_ptr);
     if ( read_symb != (size_t) numb_symb)
     {
         perror ("The following error occurred");
-        PATCHER_ERROR_CHECK (READ_BUF_ERR)
         return NULL;
     }
 
     return buffer;
 }
 
-int CloseFile (FILE* file_ptr)
+enum PatcherErrors CloseFile (FILE* file_ptr)
 {
     assert (file_ptr && "file_ptr is NULL in CloseFile" "\n");
 
     if ( fclose (file_ptr) == EOF )
     {
         perror ("Error occured");
-        PATCHER_ERROR_CHECK (FILE_CLOSE_ERR)
-        return FILE_CLOSE_ERR;
+        PATCHER_ERR_CHECK_RET_STATUS (FILE_CLOSE_ERR)
     }
 
-    return 0;
+    return NO_ERRORS;
 }

@@ -7,6 +7,7 @@
 #include "file.h"
 #include "patch.h"
 #include "errors.h"
+#include "tools.h"
 
 struct Byte_t
 {
@@ -15,25 +16,25 @@ struct Byte_t
     int next_value;
 };
 
-int Patch (char* buffer, const char* rules_filename)
+enum PatcherErrors Patch (char* buffer, const char* rules_filename)
 {
     assert (buffer && "buffer is NULL in Patch" "\n");
     assert (rules_filename && "rules_filename is NULL in Patch" "\n");
 
     FILE* rules_file = OpenFile (rules_filename, "rb");
     if (rules_file == NULL)
-        return FILE_OPEN_ERR;
+        PATCHER_ERR_CHECK_RET_STATUS (FILE_OPEN_ERR)
 
     long numb_symb = FileSize (rules_file);
     if ( numb_symb == FILE_SIZE_ERR )
-        return FILE_SIZE_ERR;
+        PATCHER_ERR_CHECK_RET_STATUS (FILE_SIZE_ERR)
 
     char* rules_buffer = ReadInBuffer (rules_file, numb_symb);
     if (rules_buffer == NULL)
-        return CREATE_BUF_ERR;
+        PATCHER_ERR_CHECK_RET_STATUS (CREATE_BUF_ERR)
 
     if ( CloseFile (rules_file) )
-        return FILE_CLOSE_ERR;
+        PATCHER_ERR_CHECK_RET_STATUS (FILE_CLOSE_ERR)
 
     char* ptr_rules = rules_buffer;
 
@@ -43,11 +44,12 @@ int Patch (char* buffer, const char* rules_filename)
 
     ReplaceByte (buffer, &ptr_rules);
 
-    while (true)
+    while (true) {
         if (strchr (ptr_rules, '<'))
             ReplaceByte (buffer, &ptr_rules);
         else
             break;
+    }
 
     free (rules_buffer);
 

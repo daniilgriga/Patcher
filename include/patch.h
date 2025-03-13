@@ -1,7 +1,7 @@
 #ifndef PATCH_H
 #define PATCH_H
 
-int Patch (char* buffer, const char* rules_filename);
+enum PatcherErrors Patch (char* buffer, const char* rules_filename);
 
 int ReplaceByte (char* buffer, char** ptr_rules);
 
