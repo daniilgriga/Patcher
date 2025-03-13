@@ -62,7 +62,7 @@ At the end it **calls** a function to get the password.
 
 ![Function to get password](imagesRDM/inputfunc.png)
 
-This function accepts the password using the **0Ah function of 21 interrupt**. Please note that the code from address 0x0125 will never be executed, this is how the program works, it will be better seen below.
+This function accepts the password using the **0Ah function of 21 interrupt**. Please note that the code from address **<0x0125>** will never be executed, this is how the program works, it will be better seen below.
 
 It **calls** a function to check the password.
 
@@ -70,8 +70,7 @@ It **calls** a function to check the password.
 
 ![check password function 1](imagesRDM/checkfunc1try.png)
 
-The content of the function is quite strange, there is some buffer in the middle of it, because of this the disassembler detects some function, although it is unlikely to be a function.
-Note, that at the end of the function there is a jump to a "function" in the middle, but the program is designed so that we will never get to it (a function is called before it, which either ends the program by hanging, or returns us to the beginning of the program).
+The content of the function is quite strange, there is some buffer in the middle of it.
 
 It **calls** **two** functions (without the function before the buffer):
  - The first to output a new line
