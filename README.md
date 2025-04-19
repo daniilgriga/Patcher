@@ -219,28 +219,18 @@ To change bytes in the executable file of Egor's program, I wrote my own C patch
 Build for C program:
 
 ```
-~/Patcher$ make
+make
 ```
 
 Build for graphics:
 
 ```
-~/Patcher/graphics$ make
+cd graphics
+make
 ```
 
 ## Graphic cover
 
-The program implements a details as:
-- Animation 
-- Two working buttons
-- Password entry field
-
-This is what the program looks like immediately after launching:
-
-![patcher1](imagesRDM/patcher1.png)
-
-But to start the hack (Hack button) you must enter a password (any password you want...):
+To start the hack you must enter a password (any password you want...):
 
 ![patcher2](imagesRDM/patcher2.png)
-
-# Thanks!
